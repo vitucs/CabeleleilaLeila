@@ -58,7 +58,7 @@
         </table>
     </div>
 
-    <h2 class="mt-5">Desempenho Semanal</h2>
+    <h2 class="mt-5">Desempenho Semana Atual</h2>
     <div class="row">
         <div class="col-md-4">
             <div class="card">
@@ -76,17 +76,6 @@
                 </div>
             </div>
         </div>
-        @php
-            $totalRecebido = 0;
-            foreach($agendamentos as $agendamento) {
-                if ($agendamento->confirmado) {
-                    foreach($agendamento->servicos as $servico) {
-                        $totalRecebido += $servico->valor;
-                    }
-                }
-            }
-        @endphp
-
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">

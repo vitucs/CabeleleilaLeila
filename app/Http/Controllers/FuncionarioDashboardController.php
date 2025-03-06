@@ -13,14 +13,33 @@ class FuncionarioDashboardController extends Controller
 {
     public function index()
     {
+        $inicioSemana = Carbon::now()->startOfWeek();
+        $fimSemana = Carbon::now()->endOfWeek();
+        
         $funcionario = Auth::guard('funcionario')->user();
-        $agendamentos = Agendamento::with(['cliente', 'servicos'])->orderBy('dataHora')->get();
-        $totalAgendamentos = $agendamentos->count();
-        $receitaTotal = $agendamentos->sum(function ($agendamento) {
+        
+        $agendamentosSemana = Agendamento::with(['cliente', 'servicos'])
+            ->whereBetween('dataHora', [$inicioSemana, $fimSemana])
+            ->orderBy('dataHora')
+            ->get();
+
+        $totalAgendamentos = $agendamentosSemana->count();
+        
+        $receitaTotal = $agendamentosSemana->sum(function ($agendamento) {
             return $agendamento->servicos->sum('valor');
         });
 
-        return view('funcionarios.dashboard', compact('agendamentos', 'totalAgendamentos', 'receitaTotal', 'funcionario'));
+        $totalRecebido = $agendamentosSemana->filter(function ($agendamento) {
+            return $agendamento->confirmado;
+        })->sum(function ($agendamento) {
+            return $agendamento->servicos->sum('valor');
+        });
+
+        $agendamentos = Agendamento::with(['cliente', 'servicos'])
+            ->orderBy('dataHora')
+            ->get();
+
+        return view('funcionarios.dashboard', compact('agendamentos', 'totalAgendamentos', 'receitaTotal', 'totalRecebido', 'funcionario'));
     }
 
     public function confirmarAgendamento($id)

@@ -65,5 +65,77 @@
             @yield('content')
         </main>
     </div>
+    
+    <script>
+        window.onmousedown = function (e) {
+            var el = e.target;
+            if (el.tagName.toLowerCase() == 'option' && el.parentNode.hasAttribute('multiple')) {
+                e.preventDefault();
+
+                if (el.hasAttribute('selected')) el.removeAttribute('selected');
+                else el.setAttribute('selected', '');
+
+                var select = el.parentNode.cloneNode(true);
+                el.parentNode.parentNode.replaceChild(select, el.parentNode);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var campo = document.querySelector('#dataHora');
+            if (campo) {
+                function getHojeBrasilia() {
+                    return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }));
+                }
+
+                function formatarData(data) {
+                    return data.toLocaleString('pt-BR', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        timeZone: 'America/Sao_Paulo'
+                    });
+                }
+                
+                function atualizarMinimo() {
+                    var hoje = getHojeBrasilia();
+                    var hojeFormatado = hoje.getFullYear() + '-' +
+                                        String(hoje.getMonth() + 1).padStart(2, '0') + '-' +
+                                        String(hoje.getDate()).padStart(2, '0') + 'T' +
+                                        String(hoje.getHours()).padStart(2, '0') + ':' +
+                                        String(hoje.getMinutes()).padStart(2, '0');
+                    campo.min = hojeFormatado;
+                }
+                
+                atualizarMinimo();
+                setInterval(atualizarMinimo, 60000);
+
+                campo.addEventListener('change', function(e) {
+                    var selectedDate = new Date(e.target.value);
+                    var hoje = getHojeBrasilia();
+                    
+                    if (selectedDate < hoje) {
+                        e.target.setCustomValidity(`A data não pode ser anterior a ${formatarData(hoje)}`);
+                    } else {
+                        e.target.setCustomValidity('');
+                    }
+                });
+
+                campo.addEventListener('input', function(e) {
+                    e.target.checkValidity();
+                });
+            }
+
+            var escolherOutraData = document.querySelector('#escolherOutraData');
+            if (escolherOutraData) {
+                document.getElementById('escolherOutraData').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector('.alert-warning').style.display = 'none';
+                    document.getElementById('cardAgendamento').style.display = 'block';
+                });
+            }
+        });
+    </script>
 </body>
 </html>

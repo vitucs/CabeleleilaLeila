@@ -18,7 +18,7 @@
             <label for="servicos" class="form-label">Serviços</label>
             <select multiple class="form-control" id="servicos" name="servicos[]" required>
                 @foreach($servicos as $servico)
-                    <option onclick="toggleSelection(this)" value="{{ $servico->id }}" 
+                    <option value="{{ $servico->id }}" 
                         {{ $agendamento->servicos->contains($servico->id) ? 'selected' : '' }}>
                         {{ $servico->nome }} (R$ {{ number_format($servico->valor, 2, ',', '.') }})
                     </option>
@@ -30,57 +30,4 @@
         <a href="{{ route('funcionario.dashboard') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        function toggleSelection(option) {
-            option.selected = !option.selected;
-        }
-
-        function getHojeBrasilia() {
-            return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }));
-        }
-
-        function formatarData(data) {
-            return data.toLocaleString('pt-BR', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                timeZone: 'America/Sao_Paulo'
-            });
-        }
-
-        var campo = document.querySelector('#dataHora');
-
-        function atualizarMinimo() {
-            var hoje = getHojeBrasilia();
-            var hojeFormatado = hoje.getFullYear() + '-' +
-                                String(hoje.getMonth() + 1).padStart(2, '0') + '-' +
-                                String(hoje.getDate()).padStart(2, '0') + 'T' +
-                                String(hoje.getHours()).padStart(2, '0') + ':' +
-                                String(hoje.getMinutes()).padStart(2, '0');
-            campo.min = hojeFormatado;
-        }
-
-        atualizarMinimo();
-        setInterval(atualizarMinimo, 60000);
-
-        campo.addEventListener('change', function(e) {
-            var selectedDate = new Date(e.target.value);
-            var hoje = getHojeBrasilia();
-            
-            if (selectedDate < hoje) {
-                e.target.setCustomValidity(`A data não pode ser anterior a ${formatarData(hoje)}`);
-            } else {
-                e.target.setCustomValidity('');
-            }
-        });
-
-        campo.addEventListener('input', function(e) {
-            e.target.checkValidity();
-        });
-    });
-</script>
 @endsection

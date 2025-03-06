@@ -20,7 +20,7 @@
                     <label for="servicos" class="form-label">Serviços</label>
                     <select multiple class="form-control" id="servicos" name="servicos[]" required>
                         @foreach($servicos as $servico)
-                            <option onclick="toggleSelection(this)" value="{{ $servico->id }}" 
+                            <option value="{{ $servico->id }}" 
                                 {{ $agendamento->servicos->contains($servico->id) ? 'selected' : '' }}>
                                 {{ $servico->nome }} (R$ {{ number_format($servico->valor, 2, ',', '.') }})
                             </option>
@@ -34,12 +34,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        function toggleSelection(option) {
-            option.selected = !option.selected;
-        }
-    });
-</script>
 @endsection

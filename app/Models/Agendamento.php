@@ -1,13 +1,19 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Agendamento extends Model
 {
-    protected $table = 'agendamentos';
+    use HasFactory;
 
+    protected $table = 'agendamentos';
+    protected $casts = [
+        'dataHora' => 'datetime',
+    ];
+    
     public function cliente()
     {
         return $this->belongsTo(Cliente::class);

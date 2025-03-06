@@ -1,5 +1,8 @@
 # CabeleleilaLeila
 
+## Deploy AWS
+*   http://54.207.5.102/
+
 ## Descrição
 
 Este é um projeto desenvolvido com Laravel e Vite para o teste técnico da empresa DSIN, que consiste em um sistema de gerenciamento de um salão de beleza, onde é possível cadastrar clientes, funcionários e agendar horários.

@@ -76,5 +76,17 @@ Antes de começar, certifique-se de ter instalado:
 
 ## Executando a Aplicação
 
-Para executar a aplicação, você pode usar o servidor embutido do PHP:
+Para executar a aplicação, você pode usar o servidor embutido do PHP, ou executar no local como:
+
+1.  Executar o laravel:
+
+    ```
+    php artisan serve
+    ```
+
+2.  Executar o NPM:
+
+    ```
+    npm run dev
+    ```
 

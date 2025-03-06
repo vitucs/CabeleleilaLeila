@@ -13,6 +13,7 @@ Este é um projeto desenvolvido com Laravel e Vite para o teste técnico da empr
 *   **Framework:** Laravel 9.x
 *   **Frontend:** JavaScript (ES6), Vite
 *   **Banco de Dados:** MySQL
+*   **Deploy:** AWS EC2
 
 ## Pré-requisitos
 

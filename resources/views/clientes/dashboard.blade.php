@@ -43,7 +43,9 @@
                         <label for="servicos" class="form-label">Serviços</label>
                         <select multiple class="form-control" id="servicos" name="servicos[]" required>
                             @foreach($servicos as $servico)
-                                <option value="{{ $servico->id }}">{{ $servico->nome }} (R$ {{ number_format($servico->valor, 2, ',', '.') }})</option>
+                                <option value="{{ $servico->id }}" onclick="toggleSelection(this)">
+                                    {{ $servico->nome }} (R$ {{ number_format($servico->valor, 2, ',', '.') }})
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -134,6 +136,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            function toggleSelection(option) {
+                option.selected = !option.selected;
+            }
+            
             function getHojeBrasilia() {
                 return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }));
             }

@@ -72,3 +72,8 @@ h1, h2 {
     background-color: #138496;
     border-color: #117a8b;
 }
+
+#servicos option:checked {
+    background-color: #e0e0e0;
+    color: #000;
+}
